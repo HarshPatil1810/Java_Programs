@@ -1,0 +1,35 @@
+public class Solution {
+    public boolean buddyStrings(String s, String goal) {
+        // If lengths are not equal, can't be buddies
+        if (s.length() != goal.length()) return false;
+
+        // If strings are equal, check for duplicate characters
+        if (s.equals(goal)) {
+            for (int i = 0; i < s.length(); i++) {
+                if (s.indexOf(s.charAt(i)) != s.lastIndexOf(s.charAt(i))) {
+                    return true; // Found a duplicate character
+                }
+            }
+            return false;
+        }
+
+        // Find the indices where characters are different
+        int first = -1, second = -1;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) != goal.charAt(i)) {
+                if (first == -1) {
+                    first = i;
+                } else if (second == -1) {
+                    second = i;
+                } else {
+                    return false; // More than 2 differences
+                }
+            }
+        }
+
+        // Check if swapping the mismatched characters makes the strings equal
+        return second != -1 &&
+               s.charAt(first) == goal.charAt(second) &&
+               s.charAt(second) == goal.charAt(first);
+    }
+}
